@@ -1,9 +1,10 @@
 package com.betrybe.agrix.solution;
 
-import com.betrybe.agrix.ebytr.staff.entity.Person;
-import com.betrybe.agrix.ebytr.staff.exception.PersonNotFoundException;
-import com.betrybe.agrix.ebytr.staff.repository.PersonRepository;
-import com.betrybe.agrix.ebytr.staff.service.PersonService;
+
+import com.betrybe.agrix.exception.PersonNotFoundException;
+import com.betrybe.agrix.models.entities.Person;
+import com.betrybe.agrix.models.repositories.PersonRepository;
+import com.betrybe.agrix.service.PersonService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
