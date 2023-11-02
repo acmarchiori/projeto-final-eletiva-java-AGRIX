@@ -1,20 +1,22 @@
 package com.betrybe.agrix.solution;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import com.betrybe.agrix.exception.PersonNotFoundException;
 import com.betrybe.agrix.models.entities.Person;
 import com.betrybe.agrix.models.repositories.PersonRepository;
 import com.betrybe.agrix.service.PersonService;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.Optional;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @SpringBootTest
 public class PersonServiceTest {
@@ -53,42 +55,19 @@ public class PersonServiceTest {
   }
 
   @Test
-  public void testGetPersonByUsernameExistingPerson() {
+  public void testLoadUserByUsernameExistingPerson() {
     // Arrange
     String username = "testUser";
     Person person = new Person();
     person.setUsername(username);
 
-    when(personRepository.findByUsername(username)).thenReturn(Optional.of(person));
+    when(personRepository.findByUsername(username)).thenReturn(person);
 
     // Act
-    Person result = personService.getPersonByUsername(username);
+    UserDetails result = personService.loadUserByUsername(username);
 
     // Assert
     assertNotNull(result);
     assertEquals(username, result.getUsername());
-  }
-
-  @Test
-  public void testGetPersonByUsernameNonExistingPerson() {
-    // Arrange
-    String username = "testUser";
-    when(personRepository.findByUsername(username)).thenReturn(Optional.empty());
-
-    // Act and Assert
-    assertThrows(PersonNotFoundException.class, () -> personService.getPersonByUsername(username));
-  }
-
-  @Test
-  public void testCreatePerson() {
-    // Arrange
-    Person personToCreate = new Person();
-    when(personRepository.save(any(Person.class))).thenReturn(personToCreate);
-
-    // Act
-    Person result = personService.create(personToCreate);
-
-    // Assert
-    assertNotNull(result);
   }
 }
